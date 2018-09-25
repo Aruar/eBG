@@ -276,16 +276,16 @@ OnReadyCheck:
 	// ======================================
 	donpcevent("::OnEmblemConquest");
 	sleep 4000;
-	mapannounce(.Castle$, bg_info(.Attacker, 1) + " : Move on warriors!! Let's capture this Castle!!", bc_map, bg_info(.Attacker, 2));
+	mapannounce(.Castle$, bg_info(.Attacker, 1) + " : Mova-se guerreiros!! Vamos capturar esse castelo!!", bc_map, bg_info(.Attacker, 2));
 	sleep 4000;
-	mapannounce(.Castle$, bg_info(.Defender, 1) + " : Protect the Castle and it's Defences to all cost!!", bc_map, bg_info(.Defender, 2));
+	mapannounce(.Castle$, bg_info(.Defender, 1) + " : Protega o Castelo a todo custo!!", bc_map, bg_info(.Defender, 2));
 	end;
 	
 OnGuardianStone:
 	.Score++;
 
 	if (mobcount(.Castle$, "eBG_Conquest::OnGuardianStone"))
-		mapannounce(.Castle$, "Guardian Stone has fallen - 6 minutes to destroy the other Stone", bc_map, 0xFFA500);
+		mapannounce(.Castle$, "Guardian Stone caiu - 6 minutos para destruir a outra pedra", bc_map, 0xFFA500);
 
 	bg_addpoints(BG_CONQ_GUARDIAN_S, 1, 1);
 	callsub(OnCheckGStone);
@@ -296,7 +296,7 @@ OnCheckGStone:
 	.time_remaining = getvariableofnpc(.bg_time[BGT_CONQ], "BG_Settings");
 
 	if (mobcount(.Castle$, "eBG_Conquest::OnGuardianStone") == 0) {
-		mapannounce(.Castle$, "Both Guardian Stones has fallen - 6 minutes to destroy the 1st Fortress Gate", bc_map, 0xFFA500);
+		mapannounce(.Castle$, "Ambos Guardian Stones cairam - 6 minutos para destruir o primeiro portão da Fortaleza", bc_map, 0xFFA500);
 		killmonster(.Castle$, "eBG_Conquest::OnBarricade0");
 		delwall("conq_wall00");
 	}
@@ -309,7 +309,7 @@ OnBarricadeFall:
 	if (.@wall < 1){
 		initnpctimer;
 		.time_remaining = getvariableofnpc(.bg_time[BGT_CONQ], "BG_Settings");
-		mapannounce(.Castle$, .@barricade +""+ ((.@barricade == 1) ? "st" : ((.@barricade == 2) ? "nd" : "rd")) +" Fortress Gate has fallen - 6 minutes to destroy the "+ ((.@barricade == 1) ? "2nd" : ((.@barricade == 2) ? "3rd" : "Emperium")), bc_map, 0xFFA500);
+		mapannounce(.Castle$, .@barricade +""+ ((.@barricade == 1) ? "st" : ((.@barricade == 2) ? "nd" : "rd")) +" Fortress Gate caiu - 6 minutos para destruir o "+ ((.@barricade == 1) ? "2nd" : ((.@barricade == 2) ? "3rd" : "Emperium")), bc_map, 0xFFA500);
 		.Score++;
 		delwall("conq_wall0"+ .@barricade);
 	}
@@ -331,7 +331,7 @@ OnBarricade3:
 OnEmperium:
 	bg_addpoints BG_CONQ_EMPERIUM, 1, 1;
 	.Score++;
-	mapannounce(.Castle$, "The " + bg_info(.Attacker,0) + " army has won the Battle and captured the Castle!!", bc_map, bg_info(.Attacker, 2));
+	mapannounce(.Castle$, "The " + bg_info(.Attacker,0) + " exército venceu a batalha e capturou o castelo!!", bc_map, bg_info(.Attacker, 2));
 	donpcevent("eBG_Conquest::OnMatchEnd");
 	end;
 
@@ -404,11 +404,11 @@ ebg_conq01,0,0,0	duplicate(respawn_script#bg)	conquest_respawn#15	HIDDEN_WARP_NP
 ebg_conq01,106,302,0	script	eBG-LF-01#01	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender,"eBG_Conquest")) {
 		.@index = atoi(strnpcinfo(2));
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Please");
-		mes("choose a destination");
-		mes("within the stronghold.^000000");
-		.@opt = select(.menu$[.@index] +":Cancel") - 1;
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
+		.@opt = select(.menu$[.@index] +":Cancelar") - 1;
 		.@size = getarraysize(getd(".warp" + (.@index + 1)))/2;
 		if (.@opt == .@size)
 			close;
@@ -461,11 +461,11 @@ ebg_conq01,130,302,0	duplicate(eBG-LF-01#01)	eBG-LF-09#09	HIDDEN_NPC
 
 ebg_conq01,17,45,0	script	Castle#eLF_sc06_1::eBG_LF_sc06_1	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Would");
-		mes("you like to teleport to");
-		mes("the Flag Center?^000000");
-		if (select("Teleport", "Cancel") == 2)
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte.");
+		mes("Você gosta de se teletransportar para");
+		mes("o centro da bandeira?^000000");
+		if (select("Teleport", "Cancelar") == 2)
 			close;
 		warp("ebg_conq01",120,290);
 	}
@@ -498,10 +498,10 @@ ebg_conq01,130,150,4	duplicate(eBG_LF_sc06_1)	Castle#eLF_sc06_8	GUILD_FLAG
 ebg_conq02,143,198,0	script	eBG-LF-02#11	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
 		.@index = atoi(strnpcinfo(2))-10;
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Please");
-		mes("choose a destination");
-		mes("within the stronghold.^000000");
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
 		.@opt = select(.menu$[.@index]+":Cancel")-1;
 		.@size = getarraysize(getd(".warp" + (.@index + 1)))/2;
 		if (.@opt == .@size)
@@ -548,11 +548,11 @@ ebg_conq02,182,202,0	duplicate(eBG-LF-02#11)	eBG-LF-07#17	HIDDEN_NPC
 
 ebg_conq02,235,222,0	script	Andlangr#eLF_sc07_1::eBG_LF_sc07_1	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Would");
-		mes("you like to teleport to");
-		mes("the Flag Center?^000000");
-		if (select("Teleport", "Cancel") == 2)
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
+		if (select("Teleportar", "Cancelar") == 2)
 			close;
 		warp("ebg_conq02",136,188);
 	}
@@ -579,11 +579,11 @@ ebg_conq02,235,207,0	duplicate(eBG_LF_sc07_1)	Andlangr#eLF_sc07_15	HIDDEN_NPC
 ebg_conq03,346,211,0	script	eBG-LF-01#21	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
 		.@index = atoi(strnpcinfo(2))-20;
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Please");
-		mes("choose a destination");
-		mes("within the stronghold.^000000");
-		.@opt = select(.menu$[.@index]+":Cancel")-1;
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
+		.@opt = select(.menu$[.@index]+":Cancelar")-1;
 		.@size = getarraysize(getd(".warp" + (.@index + 1)))/2;
 		if (.@opt == .@size)
 			close;
@@ -634,11 +634,11 @@ ebg_conq03,301,194,0	duplicate(eBG-LF-01#21)	eBG-LF-09#29	HIDDEN_NPC
 
 ebg_conq03,335,305,0	script	Vidblainn#eLF_sc08_1::eLF_sc08_1	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Would");
-		mes("you like to teleport to");
-		mes("the Flag Center?^000000");
-		if (select("Teleport", "Cancel") == 2)
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte.");
+		mes("Você gosta de se teletransportar para");
+		mes("o centro da bandeira?^000000");
+		if (select("Teleport", "Cancelar") == 2)
 			close;
 		warp("ebg_conq03",308,202);
 	}
@@ -671,11 +671,11 @@ ebg_conq03,343,323,2	duplicate(eLF_sc08_1)	Vidblainn#eLF_sc08_14	GUILD_FLAG
 ebg_conq04,74,232,0	script	eBG-LF-01#31	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
 		.@index = atoi(strnpcinfo(2))-30;
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Please");
-		mes("choose a destination");
-		mes("within the stronghold.^000000");
-		.@opt = select(.menu$[.@index]+":Cancel")-1;
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
+		.@opt = select(.menu$[.@index]+":Cancelar")-1;
 		.@size = getarraysize(getd(".warp" + (.@index + 1)))/2;
 		if (.@opt == .@size)
 			close;
@@ -727,11 +727,11 @@ ebg_conq04,98,232,0	duplicate(eBG-LF-01#31)	eBG-LF-09#39	HIDDEN_NPC
 
 ebg_conq04,72,176,0	script	Mardol#eLF_ar06_1::eLF_ar06_1	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Would");
-		mes("you like to teleport to");
-		mes("the Flag Center?^000000");
-		if (select("Teleport", "Cancel") == 2)
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte.");
+		mes("Você gosta de se teletransportar para");
+		mes("o centro da bandeira?^000000");
+		if (select("Teleport", "Cancelar") == 2)
 			close;
 		warp("ebg_conq04",67,193);
 	}
@@ -765,11 +765,11 @@ ebg_conq04,233,140,4	duplicate(eLF_ar06_1)	Mardol#eLF_ar06_14	GUILD_FLAG
 ebg_conq05,98,270,0	script	eBG-LF-01#41	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
 		.@index = atoi(strnpcinfo(2))-40;
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Please");
-		mes("choose a destination");
-		mes("within the stronghold.^000000");
-		.@opt = select(.menu$[.@index]+":Cancel")-1;
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
+		.@opt = select(.menu$[.@index]+":Cancelar")-1;
 		.@size = getarraysize(getd(".warp" + (.@index + 1)))/2;
 		if (.@opt == .@size)
 			close;
@@ -812,11 +812,11 @@ ebg_conq05,98,245,0	duplicate(eBG-LF-01#41)	eBG-LF-07#47	HIDDEN_NPC
 
 ebg_conq05,216,92,0	script	Cyr#eLF_ar07_1::eLF_ar07_1	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Would");
-		mes("you like to teleport to");
-		mes("the Flag Center?^000000");
-		if (select("Teleport", "Cancel") == 2)
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte.");
+		mes("Você gosta de se teletransportar para");
+		mes("o centro da bandeira?^000000");
+		if (select("Teleport", "Cancelar") == 2)
 			close;
 		warp("ebg_conq05",43,256);
 	}
@@ -851,11 +851,11 @@ ebg_conq05,147,38,4	duplicate(eLF_ar07_1)	Cyr#LF_ar07_16	GUILD_FLAG
 ebg_conq06,122,314,0	script	eBG-LF-01#51	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
 		.@index = atoi(strnpcinfo(2))-50;
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Please");
-		mes("choose a destination");
-		mes("within the stronghold.^000000");
-		.@opt = select(.menu$[.@index]+":Cancel")-1;
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte. Por favor");
+		mes("escolha um destino");
+		mes("dentro da fortaleza.^000000");
+		.@opt = select(.menu$[.@index]+":Cancelar")-1;
 		.@size = getarraysize(getd(".warp" + (.@index + 1)))/2;
 		if (.@opt == .@size)
 			close;
@@ -908,11 +908,11 @@ ebg_conq06,158,314,0	duplicate(eBG-LF-01#51)	eBG-LF-09#59	HIDDEN_NPC
 
 ebg_conq06,45,158,0	script	Horn#eLF_ar08_01::eLF_ar08_01	HIDDEN_NPC,{
 	if (getcharid(4) == getvariableofnpc(.Defender, "eBG_Conquest")) {
-		mes("^3355FFThis is the Stronghold");
-		mes("Teleport Service. Would");
-		mes("you like to teleport to");
-		mes("the Flag Center?^000000");
-		if (select("Teleport", "Cancel") == 2)
+		mes("^3355FFEsta é a fortaleza");
+		mes("Serviço de Teleporte.");
+		mes("Você gosta de se teletransportar para");
+		mes("o centro da bandeira?^000000");
+		if (select("Teleport", "Cancelar") == 2)
 			close;
 		warp("ebg_conq06", 121, 318);
 	}

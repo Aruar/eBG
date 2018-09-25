@@ -57,29 +57,29 @@ OnTimer30000:	// Update Information every 30 seconds.
 
 prontera,150,150,5	script	Join Battleground	4_F_SURA,{
 	.@bg_type = .bg_change;	// Save .bg_change into temporary variable.
-	mes("[Battleground Helper]");
-	mes("Would you like to join the Battleground?");
-	mes("Current BG: "+ getelementofarray(getvariableofnpc(.bg_name$, "BG_Settings"), .@bg_type));
-	mes("Status: "+ callfunc("F_eBG_Status",$@eBG_start[.@bg_type]));
+	mes("[Batalha Campal]");
+	mes("Você gostaria de se juntar a Batalha Campal?");
+	mes("Atual BG: "+ getelementofarray(getvariableofnpc(.bg_name$, "BG_Settings"), .@bg_type));
+	mes("Status Atual: "+ callfunc("F_eBG_Status",$@eBG_start[.@bg_type]));
 	if (bg_join_time > gettimetick(2)) { // BG Cooldown is remaining
-		mes("Please wait for "+ (bg_join_time - gettimetick(2)) +" Seconds, to join the bg again");
+		mes("Por favor espere por "+ (bg_join_time - gettimetick(2)) +" Segundos, para se juntar a bg novamente");
 		close;
 	}
 	if (callfunc("F_eBG_WR", .@bg_type)) { // WaitingRoom(WR) is not allowed for this BG.
-		mes("NOTE: ^FF0000 Registration to this BG only through @joinbg ^000000");
+		mes("NOTA: ^FF0000 Registro na BG disponível somente através de @joinbg ^000000");
 		close;
 	}
 	if ($@eBG_start[.@bg_type] == EBG_ENDING) { // BG is ending and won't accept new players.
-		mes("NOTE: ^FF0000 Not Accepting New Entries ^000000");
+		mes("NOTA: ^FF0000 Não aceitando novas entradas ^000000");
 		close;
 	}
-	switch(select("Join the BG!!: Wait, BG, ehh... No")) {
+	switch(select("Junte-se ao BG!!: Espere, BG, ohhh... Não")) {
 	case 2:
 		close;
 	case 1:
 		next;
-		mes("[Battleground Helper]");
-		mes("Choose Team");
+		mes("[Batalha Campal]");
+		mes("Escolher equipe");
 		.@menu$ = "";
 		for (.@i = 0; .@i < .bg_teams; ++.@i) {
 			.@menu$ += callfunc("F_eBGTeamName", .@i+1) + ":";
@@ -89,7 +89,7 @@ prontera,150,150,5	script	Join Battleground	4_F_SURA,{
 		if (.@team > .bg_teams)
 			close;
 		@BG_JoinTeam = .@team;
-		mes("Press Close to Join the Battlegrounds");
+		mes("Pressione fechar para ingressar na Batalha Campal");
 		close2;
 		doevent("BG_Settings::OnJoinBG2");
 		callfunc("F_eBG_WR_Warp", @BG_JoinTeam, .@bg_type);
@@ -322,7 +322,7 @@ OnInit:
 // @bgtime command
 OnTimeLeft:
 	if (!on_ebg()) {
-		dispbottom("You are not playing eBattlegrounds.");
+		dispbottom("Você não está jogando Batalha Campal.");
 		end;
 	}
 	callfunc("F_eBG_Time_Left", @BG_ID, .bg_npcname$[@BG_ID]);
@@ -456,7 +456,7 @@ OnBGAnnounce: // Announce remaining players
 		} else {
 			.@type = BC_EBG | bc_npc; // All Clients
 		}
-		bg_announce("ExtendedBG -- " + .bg_name$[.bg_change] + " -- " + (.@min_p - .@player_joined) + " more players to start.", .@type, .bg_colors$[.bg_change]);
+		bg_announce("Batalha Campal -- " + .bg_name$[.bg_change] + " -- " + (.@min_p - .@player_joined) + " mais jogadores para começar.", .@type, .bg_colors$[.bg_change]);
 		if (.@end == 1) {
 			end;
 		}
@@ -467,17 +467,17 @@ OnCheckBGEnabled:
 	.@type = getarg(0);	// 2 = Party, 1 = Guild, 0 = None
 	if (.@type == 2) {	// Party
 		if (.bg_enabled_p[.bg_change] == false) {
-			dispbottom("Party Join is disabled for "+ .bg_name$[.bg_change] +" BG.");
+			dispbottom("Party Join está desativado para "+ .bg_name$[.bg_change] +" BG.");
 			return false;
 		}
 	} else if (.@type == 1) { // Guild
 		if (.bg_enabled_g[.bg_change] == false) {
-			dispbottom("Guild Join is disabled for "+ .bg_name$[.bg_change] +" BG.");
+			dispbottom("Guild Join está desativado para "+ .bg_name$[.bg_change] +" BG.");
 			return false;
 		}
 	} else if (.@type == 0) {
 		if (.bg_enabled[.bg_change] == false) {
-			dispbottom("Individual Join is disabled for "+ .bg_name$[.bg_change] +" BG.");
+			dispbottom("Individual Join está desativado para "+ .bg_name$[.bg_change] +" BG.");
 			return false;
 		}
 	}
@@ -508,11 +508,11 @@ OnJoinBG: // joinbg: .@type = 0
 	@BG_TeamJoin = 0;
 	dispbottom("EBG: "+ on_ebg());
 	if (on_ebg() == true) {
-		dispbottom("You are Already on BG");
+		dispbottom("Você já está na BG");
 		end;
 	}
 	if (bg_join_time > gettimetick(2)) {
-		dispbottom("Please wait for "+ (bg_join_time - gettimetick(2)) +" Seconds, to join the bg again");
+		dispbottom("Por favor espere por "+ (bg_join_time - gettimetick(2)) +" Segundos, para se juntar a bg novamente");
 		end;
 	}
 	switch(.bg_change) {
@@ -527,11 +527,11 @@ OnJoinBG: // joinbg: .@type = 0
 		break;
 	}
 	if (bg_logincheck(.@bg_map$) >= .bg_common[1]) {
-		dispbottom("Someone else from same IP is already On BG.");
+		dispbottom("Alguém do mesmo IP já está na BG.");
 		end;
 	}
 	if (getbattleflag("battle_configuration/bg_queue_townonly") && !getmapflag(strcharinfo(PC_MAP), mf_town)) {
-		dispbottom("You can only join when in town.");
+		dispbottom("Digite este comando em uma cidade.");
 		end;
 	}
 	// Fallthrough
@@ -554,7 +554,7 @@ OnStartBG:
 	// Check Player Count
 	if (callfunc("F_eBGMaxPlayer", .bg_mapname$[.bg_change], .bg_teams[.bg_change]) >= .bg_maxplayer[.bg_change] ||
 		$@eBG_member_size >= .bg_maxplayer[.bg_change]) {
-		dispbottom("Please Wait till Current BG gets Over...");
+		dispbottom("Por favor, aguarde até que a BG atual acabe..");
 		end;
 	}
 	// Attempt to join
@@ -571,7 +571,7 @@ OnStartBG:
 		 * 	Invalid Map
 		 * 	Invalid GuildID
 		 */
-		dispbottom("Failed to Join BG. Try again later.");
+		dispbottom("Ocorreu um erro ao entrar na Batalha Campal. Tente mais tarde.");
 		break;
 	}
 	end;
@@ -601,17 +601,17 @@ OnWhisperGlobal:
 		mes("------------------------");
 		mesf("Current BG: %s", .bg_mapname$[.bg_change]);
 		mes("------------------------");
-		mes("Format: <ID>.) <MapName> : <Start Status>");
+		mes("Formato: <ID>.) <MapName> : <Start Status>");
 		for (.@i = BGT_CTF; .@i <= .bg_common[0]; ++.@i) {
 			mesf("%d.) %s : %d", .@i, .bg_mapname$[.@i], $@eBG_start[.@i]);
 		}
 		mes("------------------------");
-		mes("Ranking Info: ");
-		mesf("Last Ranked Time: %d", $BGRanked_);
-		mesf("Current Status: %s", ($BGRanked == 1) ? "ON" : "OFF");
+		mes("Ranking: ");
+		mesf("Último Ranked Time: %d", $BGRanked_);
+		mesf("Status Atual: %s", ($BGRanked == 1) ? "ON" : "OFF");
 		mes("------------------------");
 		mesf("Server Time(in hour): %d", gettime(3));
-		switch(select("Close", "Execute OnMinute00", "Enable/Disable BGRanked", "RotateBG", "Set BGType")) {
+		switch(select("Fechar", "Execute OnMinute00", "Enable/Disable BGRanked", "RotateBG", "Set BGType")) {
 			case 1:
 				close;
 			case 2:
@@ -689,7 +689,7 @@ OnLeaveBG:	// Replicate in bg_team_delete_pre (called when used .@leavebg/leaved
 	dispbottom("EBG: "+ on_ebg());
 	if (on_ebg() == false) {
 		if (!.@dont_warn)
-			dispbottom("You are Not on Any Kind of BG");
+			dispbottom("Você não está em nenhum tipo de BG");
 		if (.@ret_func)
 			return 0;
 		end;	// .@ret_func = 0
@@ -737,7 +737,7 @@ OnBGStart:	// BG Starts
 	if (.uid[.@id])
 		callsub(OnBGStopSub);	//Restarts the Timer
 	.uid[.@id] = bg_timer_start(24000, 1);
-	debugmes("Map: "+ strnpcinfo(4) +" ID: "+ .@id);
+	debugmes("Mapa: "+ strnpcinfo(4) +" ID: "+ .@id);
 	switch(.@id) {
 		/* CTF: 1, 2 */
 		/* SC: 12, 13 */
@@ -799,7 +799,7 @@ OnBGStart:	// BG Starts
 		case 15: // Red Team
 			.@index = $bg_conquest_rotate; // Check map index
 			.@Castle$ = "ebg_conq0"+ (.@index + 1);
-			.@announce$ = "-- Reinforcements entering the Battle of Conquest --";
+			.@announce$ = "-- Reforços entrando na Batalha da Conquista --";
 			.@color$ = "0xFFA500"; // Color of Announce
 			// Warp positions for Attacker and Defender
 			setarray .@bg_conquest_Defender_XY[0],	120, 129,  // ebg_conq01
@@ -885,7 +885,7 @@ OnBGStart:	// BG Starts
 			// Rush Map Index
 			.@index = $bg_rush_rotate;
 			.@Castle$ = "ebg_rush0"+ (.@index + 1);
-			.@announce$ = "-- Reinforcements entering the Battle of Rush --";
+			.@announce$ = "-- Reforços entrando na Batalha de Rush --";
 			.@color$ = "0xDDA0DD";
 			// Defender BG Id
 			.@Defender = getvariableofnpc(.Defender, "eBG_Rush");
@@ -992,9 +992,9 @@ OnBGStop:	//BG Stops
 
 // Therapist
 -	script	Therapist#eBG	FAKE_NPC,{
-	mes("[Therapist in battle]");
-	mes("Just close your eyes, and take a deep breathe.");
-	mes("You can be free from pain.");
+	mes("[Terapeuta na batalha]");
+	mes("Apenas feche os olhos e respire fundo.");
+	mes("Você pode estar livre da dor.");
 	specialeffect(EF_HEAL, AREA, playerattached());
 	percentheal(100, 100);
 	repairall();
