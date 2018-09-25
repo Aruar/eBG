@@ -2069,7 +2069,7 @@ int skill_notok_pre(uint16 *skill_id, struct map_session_data **sd)
 		struct ebg_mapflags *mf_data = getFromMAPD(&map->list[(*sd)->bl.m], 0);
 
 		if (mf_data && mf_data->no_ec) {
-			clif->message((*sd)->fd, "Emergency Call cannot be cast here.");
+			clif->message((*sd)->fd, "Chamado de Urgência não pode ser conjurado aqui.");
 			hookStop();
 			return 1;
 		}
@@ -2101,20 +2101,20 @@ void pc_addpoint_bg(struct map_session_data *sd, int count, int type, bool leade
 	switch (type) {
 		case 0: /// BG Normal Matches
 			SET_VARIABLE_ADD(sd, points, BG_POINTS, count, int);
-			sprintf(message, "[Your Battleground Rank +%d = %d points]", count, *points);
+			sprintf(message, "[Classificação Batalha Campal +%d = %d pontos]", count, *points);
 			if (leader && extra_count != 0) {
 				clif->message(sd->fd, message);
 				SET_VARIABLE_ADD(sd, points, BG_POINTS, extra_count, int);
-				sprintf(message, "[Your Battleground Rank(Leader Bonus) +%d = %d points]", extra_count, *points);
+				sprintf(message, "[Classificação (Bônus Lider) Batalha Campal +%d = %d pontos]", extra_count, *points);
 			}
 			break;
 		default: /// Bg Ranked Matches
 			SET_VARIABLE_ADD(sd, points, BG_RANKED_POINTS, count, int);
-			sprintf(message, "[Your Battleground Rank +%d = %d points]", count, *points);
+			sprintf(message, "[Classificação Ranqueado Batalha Campal +%d = %d pontos]", count, *points);
 			if (leader && extra_count != 0) {
 				clif->message(sd->fd, message);
 				SET_VARIABLE_ADD(sd, points, BG_RANKED_POINTS, extra_count, int);
-				sprintf(message, "[Your Battleground Rank(Leader Bonus) +%d = %d points]", extra_count, *points);
+				sprintf(message, "[Classificação (Bônus Lider) Ranqueado Batalha Campal +%d = %d pontos]", extra_count, *points);
 			}
 			break;
 	}
@@ -3087,29 +3087,25 @@ int bg_e_team_join(int bg_id, struct map_session_data *sd, int guild_id)
 	if (sd == NULL)
 		return 0;
 	if (bgd == NULL) {
-		clif->message(sd->fd, "Battleground Data is NULL.");
+		clif->message(sd->fd, "Dados de Batalha Campal estão vazios.");
 		return 0;
 	}
 	if (sd->bg_id) {
-		clif->message(sd->fd, "You are already on Battleground.");
+		clif->message(sd->fd, "Você já está na Batalha Campal.");
 		return 0;
 	}
 	
 	if (bg_queue_townonly && !map->list[sd->bl.m].flag.town) {
-		clif->message(sd->fd, "You can only join when in town.");
+		clif->message(sd->fd, "Você só pode se juntar dentro de uma cidade.");
 		return 0;
 	}
 
 	ARR_FIND(0, MAX_BG_MEMBERS, i, bgd->members[i].sd == NULL);
 	if (i == MAX_BG_MEMBERS) {
-		clif->message(sd->fd, "Team is Full.");
+		clif->message(sd->fd, "O Time está cheio.");
 		return 0; // No free slots
 	}
-	
-	if (sd->bg_id) {
-		clif->message(sd->fd, "You are already on eBattleground.");
-		return 0;
-	}
+
 	data = pdb_search(sd, true);
 	
 	bg_data_t = bg_extra_create(bgd, true);
@@ -3126,7 +3122,7 @@ int bg_e_team_join(int bg_id, struct map_session_data *sd, int guild_id)
 		bg_data_t->leader = sd->status.char_id;
 #endif
 		data->leader = true;
-		clif->message(sd->fd,"You are Leader of your Team");
+		clif->message(sd->fd,"Você é o lider do time.");
 	} else {
 		data->leader = false;
 	}
@@ -3191,7 +3187,7 @@ int bg_e_team_join(int bg_id, struct map_session_data *sd, int guild_id)
 		SET_VARIABLE_ADD(sd, total_ranked_game, BG_TOTAL_RANKED_GAMES, 1, int);
 		
 		pc_setglobalreg(sd, script->add_str("bg_ranked"), mapreg->readreg(script->add_str("$BGRanked_")));
-		sprintf(output,"-- Ranked Battleground Match %d Of %d --", data->esd->bg.ranked_games, bg_max_rank_game);
+		sprintf(output,"-- Batalha Campal Partida Ranqueada %d de %d --", data->esd->bg.ranked_games, bg_max_rank_game);
 		clif->message(sd->fd,output);
 	}
 	
@@ -5000,20 +4996,20 @@ int set_ebg_idle(union DBKey *key, struct DBData **data_db, va_list ap)
 		if (bg_idle_announce > 0 && sd_data->eBG && sd_data->flag.ebg_afk == 0 && DIFF_TICK32(sockt->last_tick, sd->idletime) >= bg_idle_announce) { // Idle announces
 			char output[200];
 			if (bg_kick_idle > 0) {
-				sprintf(output, "- AFK [%s] AutoKicked -", sd->status.name);
+				sprintf(output, "- AFK [%s] Expulso automaticamente -", sd->status.name);
 				ebg_broadcast2(&sd->bl, output, (int)strlen(output)+1, color, 0x190, 20, 0, 0, CLIENT_EBG);
 				
 				bg->team_leave(sd, BGTL_AFK);
-				clif->message(sd->fd, "You have been kicked from Battleground because of your AFK status.");
+				clif->message(sd->fd, "Você foi expulso da Batalha Campal por seu status AFK.");
 				pc->setpos(sd, sd->status.save_point.map, sd->status.save_point.x, sd->status.save_point.y, CLR_OUTSIGHT);
 				continue;
 			}
 			sd_data->flag.ebg_afk = 1;
 
 #ifdef VIRT_GUILD
-			sprintf(output, "%s : %s seems to be away. AFK Warning - Can be kicked out with @reportafk", bg_data->g->name, sd->status.name);
+			sprintf(output, "%s : %s parece estar parado. Aviso AFK - Pode ser expulso com @reportafk", bg_data->g->name, sd->status.name);
 #else
-			sprintf(output, "%s : %s seems to be away. AFK Warning - Can be kicked out with @reportafk", sd_data->g->name, sd->status.name);
+			sprintf(output, "%s : %s parece estar parado. Aviso AFK - Pode ser expulso com @reportafk", sd_data->g->name, sd->status.name);
 #endif
 			ebg_broadcast2(&sd->bl, output, (int)strlen(output)+1, color, 0x190, 20, 0, 0, CLIENT_EBG);
 		}

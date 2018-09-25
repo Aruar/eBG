@@ -133,7 +133,7 @@ function	script	F_warpTeam	{
 			break;
 			
 	}
-	announce(strcharinfo(0) +" Has Joined BG", bc_all);	//Customization Needed.
+	announce(strcharinfo(0) +" se juntou a batalha", bc_all);	//Customization Needed.
 	return 1;
 }
 
@@ -511,7 +511,7 @@ function	script	F_balanceTeams	{
 					queueadd(getd("$@"+ .@map$[0] +"_BG_queue"+ .@team_to_join), getcharid(3));
 					.@retval += 1;
 				} else {
-					dispbottom("F_balanceTeams: Failed to Join Battleground, Please try Again.");
+					dispbottom("F_balanceTeams: Falha ao se juntar a Batalha Campal, tente novamente.");
 					callfunc("F_ValidateeBG", BGT_MAX, 1);
 					continue;
 				}

@@ -1,4 +1,5 @@
 // Add to end of db/map_index.txt
+// [CarlosHenrq] Adicionar os mapas no final do arquivo 'db/map_index.txt'
 ebg_boss
 ebg_conq01
 ebg_conq02

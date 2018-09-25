@@ -160,12 +160,12 @@ ACMD(bgranked)
 	int i;
 	char output[100];
 
-	clif->message(fd, "============= Ranked Battleground Ranking =============");
+	clif->message(fd, "============= Classificação Ranqueado Batalha Campal =============");
 	for(i = 0; i < MAX_FAME_LIST && bgrank_fame_list[i].id; i++) {
-		sprintf(output, "%d - %s - %d points", (i + 1), bgrank_fame_list[i].name, bgrank_fame_list[i].fame);
+		sprintf(output, "%d - %s - %d pontos", (i + 1), bgrank_fame_list[i].name, bgrank_fame_list[i].fame);
 		clif->message(fd, output);
 	}
-	clif->message(fd, "============= Ranked Battleground Ranking =============");
+	clif->message(fd, "============= Classificação Ranqueado Batalha Campal =============");
 	return true;
 }
 
@@ -178,12 +178,12 @@ ACMD(bgregular)
 	int i;
 	char output[100];
 
-	clif->message(fd, "============= Regular Battleground Ranking =============");
+	clif->message(fd, "============= Classificação Regular Batalha Campal =============");
 	for (i = 0; i < MAX_FAME_LIST && bg_fame_list[i].id; i++) {
-		sprintf(output, "%d - %s - %d points", i + 1, bg_fame_list[i].name, bg_fame_list[i].fame);
+		sprintf(output, "%d - %s - %d pontos", i + 1, bg_fame_list[i].name, bg_fame_list[i].fame);
 		clif->message(fd, output);
 	}
-	clif->message(fd, "============= Regular Battleground Ranking =============");
+	clif->message(fd, "============= Classificação Regular Batalha Campal =============");
 	return true;
 }
 
@@ -195,7 +195,7 @@ ACMD(order)
 {
 	struct sd_p_data *data = pdb_search(sd, false);
 	if (!*message) {
-		clif->message(fd, "Please, enter a message (usage: @order <message>).");
+		clif->message(fd, "Por favor, digite a mensagem (uso: @order <mensagem>).");
 		return true;
 	}
 
@@ -204,11 +204,11 @@ ACMD(order)
 		struct battleground_data *bgd = bg->team_search(sd->bg_id);
 		struct bg_extra_info *bg_data_t;
 		if (bgd == NULL || (bg_data_t = bg_extra_create(bgd, false)) == NULL) {
-			clif->message(fd, "This command is only allowed while in eBG.");
+			clif->message(fd, "Este comando está permitido apenas dentro da eBG.");
 			return false;
 		}
 		if (!data->leader) {
-			clif->message(fd, "This command is reserved for Team Leaders Only.");
+			clif->message(fd, "Uso permitido apenas para o líder.");
 			return false;
 		}
 		color = bg_colors[
@@ -221,7 +221,7 @@ ACMD(order)
 		ebg_broadcast2(&sd->bl, message, (int)strlen(message) + 1, color, 0x190, 20, 0, 0, CLIENT_EBG);
 	} else {
 		if (!sd->state.gmaster_flag) {
-			clif->message(fd, "This command is reserved for Guild Leaders Only.");
+			clif->message(fd, "Uso permitido apenas para o líder.");
 			return false;
 		}
 		clif->broadcast2(&sd->bl, message, (int)strlen(message) + 1, 0xFF0000, 0x190, 20, 0, 0, GUILD);
@@ -244,19 +244,19 @@ ACMD(leader)
 	unsigned int color;
 
 	if (data == NULL || !data->eBG == false || sd->bg_id == 0 || (bgd = bg->team_search(sd->bg_id)) == NULL || (bg_data_t = bg_extra_create(bgd, false)) == NULL) {
-		clif->message(fd, "Command only allowed while in eBG.");
+		clif->message(fd, "Comando desabilitado fora da eBG.");
 		return false;
 	}
 	if (!data->leader) {
-		clif->message(fd, "This command is reserved for Team Leaders Only.");
+		clif->message(fd, "Uso permitido apenas para o líder.");
 		return false;
 	}
 	if (sd->ud.skilltimer != INVALID_TIMER) {
-		clif->message(fd, "Command not allow while casting a skill.");
+		clif->message(fd, "Comando não permitido enquanto conjura habilidades.");
 		return false;
 	}
 	if (!*message) {
-		clif->message(fd, "Please, enter the new Leader name (usage: @leader <name>).");
+		clif->message(fd, "Por favor, digite o nome do novo líder. (uso: @leader <nome>).");
 		return false;
 	}
 	if ((pl_sd = map->nick2sd(message)) == NULL) {
@@ -264,15 +264,15 @@ ACMD(leader)
 		return false;
 	}
 	if (sd->bg_id != pl_sd->bg_id) {
-		clif->message(fd, "Destination Player is not in your Team.");
+		clif->message(fd, "O Jogador escolhido não é do seu time.");
 		return false;
 	}
 	if (sd == pl_sd) {
-		clif->message(fd, "You are already the Team Leader.");
+		clif->message(fd, "Você já é o lider do grupo.");
 		return false;
 	}
 	if ((pl_data = pdb_search(pl_sd, false)) == NULL) {
-		clif->message(fd, "The Player Data not found.");
+		clif->message(fd, "Dados de jogador não encontrados.");
 		return false;
 	}
 #ifdef VIRT_GUILD
@@ -281,7 +281,7 @@ ACMD(leader)
 	color = bg_colors[GET_ORIG_GUILD_ID(sd_data->g->guild_id)];
 #endif
 
-	sprintf(output, "Team Leader transfered to [%s]", pl_sd->status.name);
+	sprintf(output, "Liderança do grupo transferida para [%s]", pl_sd->status.name);
 
 	ebg_broadcast2(&sd->bl, output, (int)strlen(output) + 1, color, 0x190, 20, 0, 0, CLIENT_EBG);
 
@@ -313,15 +313,15 @@ ACMD(reportafk)
 	unsigned int color;
 
 	if (data == NULL || !data->eBG || sd->bg_id == 0 || (bgd = bg->team_search(sd->bg_id)) == NULL || (bg_data_t = bg_extra_create(bgd, false)) == NULL) {
-		clif->message(fd, "Command only allowed while in eBG.");
+		clif->message(fd, "Comando desabilitado fora da eBG.");
 		return false;
 	}
 	if (!data->leader && bg_reportafk_leader == 0) {
-		clif->message(fd, "This command is reserved for Team Leaders Only.");
+		clif->message(fd, "Uso permitido apenas para o líder.");
 		return false;
 	}
 	if (!*message) {
-		clif->message(fd, "Please, enter the character name (usage: @reportafk <name>).");
+		clif->message(fd, "Por favor, digite o nome do personagem (uso: @reportafk <nome>).");
 		return false;
 	}
 	if ((pl_sd = map->nick2sd(message)) == NULL) {
@@ -329,15 +329,15 @@ ACMD(reportafk)
 		return false;
 	}
 	if (sd->bg_id != pl_sd->bg_id) {
-		clif->message(fd, "Destination Player is not in your Team.");
+		clif->message(fd, "Jogador escolhido não é do seu time.");
 		return false;
 	}
 	if (sd == pl_sd) {
-		clif->message(fd, "You cannot kick yourself,");
+		clif->message(fd, "Você não pode expulsar você mesmo.");
 		return false;
 	}
 	if ((pl_data = pdb_search(pl_sd, false)) == NULL || pl_data->flag.ebg_afk == 0) {
-		clif->message(fd, "The player is not AFK on this Battleground.");
+		clif->message(fd, "O Jogador não está AFK nesta batalha campal.");
 		return false;
 	}
 
@@ -347,11 +347,11 @@ ACMD(reportafk)
 	color = bg_colors[GET_ORIG_GUILD_ID(sd_data->g->guild_id)];
 #endif
 	
-	sprintf(output, "- AFK [%s] Kicked -", pl_sd->status.name);
+	sprintf(output, "- AFK [%s] Expulso -", pl_sd->status.name);
 	ebg_broadcast2(&sd->bl, output, (int)strlen(output) + 1, color, 0x190, 20, 0, 0, CLIENT_EBG);
 	
 	bg->team_leave(pl_sd, BGTL_AFK);
-	clif->message(pl_sd->fd, "You have been kicked from Battleground because of your AFK status.");
+	clif->message(pl_sd->fd, "Você foi expulso da Batalha Campal por causa do seu status AFK.");
 	pc->setpos(pl_sd, pl_sd->status.save_point.map, pl_sd->status.save_point.x, pl_sd->status.save_point.y, CLR_OUTSIGHT);
 
 	return true;
@@ -370,10 +370,10 @@ ACMD(ignorebg)
 	
 	if (data->ignore) {
 		data->ignore = false;
-		clif->message(fd, "You are now listening to Battleground announcements.");
+		clif->message(fd, "Você está escutando os avisos da Batalha Campal.");
 	} else {
 		data->ignore = true;
-		clif->message(fd, "You are now ignoring Battleground announcements.");
+		clif->message(fd, "Você está ignorando os avisos da Batalha Campal.");
 	}
 
 	return true;
