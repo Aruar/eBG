@@ -75,7 +75,7 @@ OnValidateScore:
 OnTimer60000:
 	.time_remaining--;
 	if (.time_remaining != 0) {
-		mapannounce("ebg_tti", "A Batalhe irá terminar em "+ .time_remaining +" minutos!!", bc_map, 0x696969);
+		mapannounce("ebg_tti", "A Batalha irá terminar em "+ .time_remaining +" minutos!!", bc_map, 0x696969);
 		initnpctimer;
 		end;
 	}
