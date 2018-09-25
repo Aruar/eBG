@@ -1,18 +1,18 @@
-ebg_boss#Battlegrounds : Bossnia#
-ebg_ctf#Battlegrounds : Capture the Flag#
-ebg_tti#Battlegrounds : Triple Inferno#
-ebg_eos#Battlegrounds : Eye of the Storm#
-ebg_td#Battlegrounds : Team Deathmatch#
-ebg_sc#Battlegrounds : Stone Control#
-ebg_conq01#Battlegrounds : Conquest#
-ebg_conq02#Battlegrounds : Conquest#
-ebg_conq03#Battlegrounds : Conquest#
-ebg_conq04#Battlegrounds : Conquest#
-ebg_conq05#Battlegrounds : Conquest#
-ebg_conq06#Battlegrounds : Conquest#
-ebg_rush01#Battlegrounds : Rush#
-ebg_rush02#Battlegrounds : Rush#
-ebg_rush03#Battlegrounds : Rush#
-ebg_rush04#Battlegrounds : Rush#
-ebg_dom#Battlegrounds : Domination#
-ebg_room#Battlegrounds : Waiting Room#
+ebg_boss#Batalha Campal : Bossnia#
+ebg_ctf#Batalha Campal : Capture a Bandeira#
+ebg_tti#Batalha Campal : Inferno Triplo#
+ebg_eos#Batalha Campal : Olho da Tempestade#
+ebg_td#Batalha Campal : Mata Mata#
+ebg_sc#Batalha Campal : Stone Control#
+ebg_conq01#Batalha Campal : Conquista#
+ebg_conq02#Batalha Campal : Conquista#
+ebg_conq03#Batalha Campal : Conquista#
+ebg_conq04#Batalha Campal : Conquista#
+ebg_conq05#Batalha Campal : Conquista#
+ebg_conq06#Batalha Campal : Conquista#
+ebg_rush01#Batalha Campal : Invasão#
+ebg_rush02#Batalha Campal : Invasão#
+ebg_rush03#Batalha Campal : Invasão#
+ebg_rush04#Batalha Campal : Invasão#
+ebg_dom#Batalha Campal : Soberania#
+ebg_room#Batalha Campal : Sala de Espera#
