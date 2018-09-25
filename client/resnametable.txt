@@ -17,7 +17,7 @@
 //ebg_rush04
 //ebg_dom
 //ebg_room
-
+teste
 // Bossnia
 ebg_boss.gnd#bat_a01.gnd#
 ebg_boss.gat#bat_a01.gat#
