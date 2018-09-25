@@ -735,16 +735,16 @@ function	script	F_eBG_Time_Left	{
 		case BGT_RUSH:
 			.@timer = (getnpctimer(0, .@npc_name$)/1000);
 			.@time_minutes = getvariableofnpc(.time_remaining, .@npc_name$) - 1;
-			dispbottom("Time Left: "+ .@time_minutes +" minutes "+ (60-.@timer) +" seconds.");
+			dispbottom("Tempo restante: "+ .@time_minutes +" minutos "+ (60-.@timer) +" segundos.");
 			break;
 
 		case BGT_EOS:
 		case BGT_DOM:
 		case BGT_TOUCHDOWN:
-			dispbottom("Current BG does not have any specific time to end.");
+			dispbottom("O BG atual não tem nenhum horário específico para terminar.");
 			break;
 		default:
-			dispbottom("This BG is not yet supported. Contact GM.");
+			dispbottom("Este BG ainda não é suportado. Entre em contato com a GM.");
 			break;
 	}
 	return;
